@@ -5,10 +5,11 @@ pub mod intern;
 pub mod lex;
 pub mod types;
 
+pub use {codespan, hexponent, lazy_static, shared_str};
+
 pub use crate::intern::InternedStr;
-pub(crate) use error::ErrorHandler;
-pub use error::{CompileError, CompileResult, CompileWarning, Error, SemanticError, SyntaxError};
-pub use hir::LiteralValue;
+pub use error::{CompileError, CompileResult, CompileWarning, Error, ErrorHandler, SemanticError, SyntaxError};
+pub use hir::{LiteralValue, Scope};
 pub use lex::{LiteralToken, Locatable, Location, Token};
 pub use types::Type;
 pub use types::{StructRef, StructType};

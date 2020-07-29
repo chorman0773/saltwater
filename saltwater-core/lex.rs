@@ -4,6 +4,7 @@ use std::cmp::Ordering;
 #[cfg(test)]
 use proptest_derive::Arbitrary;
 
+use crate::ast::DeclarationSpecifier;
 use crate::hir::BinaryOp;
 use crate::intern::InternedStr;
 
@@ -66,6 +67,39 @@ impl<T> Locatable<T> {
             data: f(self.data),
             location: self.location,
         }
+    }
+}
+
+impl<T: Into<U>, U> From<Locatable<T>> for Locatable<U> {
+    fn from(token: Locatable<T>) -> Locatable<U> {
+        token.map(T::into)
+    }
+}
+
+impl std::convert::TryFrom<Keyword> for DeclarationSpecifier {
+    type Error = ();
+    #[rustfmt::skip]
+    fn try_from(k: Keyword) -> Result<DeclarationSpecifier, ()> {
+        use crate::ast::UnitSpecifier;
+
+        // TODO: get rid of this macro and store a `enum Keyword { Qualifier(Qualifier), etc. }` instead
+        macro_rules! change_enum {
+            ($val: expr, $source: path, $dest: ident, $($name: ident),* $(,)?) => {
+                match $val {
+                    $(<$source>::$name => Ok(DeclarationSpecifier::Unit(UnitSpecifier::$name)),)*
+                    _ => Err(()),
+                }
+            }
+        }
+
+        change_enum!(k, Keyword, DeclarationSpecifier,
+            Const, Volatile, Restrict, Atomic, ThreadLocal,
+            Unsigned, Signed,
+            Bool, Char, Short, Int, Long, Float, Double, Void,
+            Complex, Imaginary, VaList,
+            Extern, Static, Auto, Register, Typedef,
+            Inline, NoReturn,
+        )
     }
 }
 

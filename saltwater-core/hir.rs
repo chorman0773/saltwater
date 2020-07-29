@@ -236,7 +236,7 @@ pub struct FunctionQualifiers {
 }
 
 #[derive(Debug)]
-pub(crate) struct Scope<K: Hash + Eq, V>(Vec<HashMap<K, V>>);
+pub struct Scope<K: Hash + Eq, V>(Vec<HashMap<K, V>>);
 
 impl Qualifiers {
     pub(crate) fn has_func_qualifiers(self) -> bool {

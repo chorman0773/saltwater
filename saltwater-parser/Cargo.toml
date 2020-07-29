@@ -1,0 +1,15 @@
+[package]
+name = "saltwater-parser"
+version = "0.1.0"
+authors = ["Joshua Nelson <jyn514@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+saltwater-core = { path = "../saltwater-core" }
+counter = "0.4"
+target-lexicon = "0.10"
+
+[lib]
+path = "lib.rs"

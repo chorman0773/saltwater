@@ -16,7 +16,8 @@ pub type CompileWarning = Locatable<Warning>;
 /// part of the compiler, this cannot be represented well with Rust's normal
 /// `Result`.
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) struct ErrorHandler<T = Error> {
+// TODO: should this really be public
+pub struct ErrorHandler<T = Error> {
     errors: VecDeque<Locatable<T>>,
     pub(crate) warnings: VecDeque<CompileWarning>,
 }
